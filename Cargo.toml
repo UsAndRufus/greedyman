@@ -1,0 +1,6 @@
+[package]
+name = "greedyman"
+version = "0.1.0"
+authors = ["Ed Bennigsen <ed@prayermate.net>"]
+
+[dependencies]
