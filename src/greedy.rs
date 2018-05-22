@@ -1,8 +1,15 @@
+use std::collections::BinaryHeap;
+
+use std::io;
+use std::io::prelude::*;
+
 use rand::{thread_rng, Rng};
 
 use nineman::game::*;
 use nineman::game::Ply::*;
 use nineman::player::InputHandler;
+
+use score::Score;
 
 pub struct Greedy {
     pub player_id: i8,
@@ -11,12 +18,25 @@ pub struct Greedy {
 
 impl Greedy {
     fn best_child(&self) -> Ply {
-        match self.current_game_state {
-            Some(ref gs) =>
-                thread_rng().choose(&gs.children()).unwrap()
-                .ply_to_get_here.clone(),
-            None => Root,
-        }
+
+        let children = match self.current_game_state {
+            Some(ref gs) => gs.children(),
+            None => return Root,
+        };
+
+        let id = self.player_id;
+
+        let ordered_plys: BinaryHeap<Score>
+            = children.iter()
+                .map(|c| Score{ score: c.player_score(id), ply: c.ply_to_get_here.clone() })
+                .collect();
+
+        println!("ordered_plys: {:?}", ordered_plys);
+
+        // let mut line = String::new();
+        // io::stdin().read_line(&mut line).expect("Failed to read line");
+
+        ordered_plys.peek().unwrap().ply.clone()
     }
 }
 
