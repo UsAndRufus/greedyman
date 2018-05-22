@@ -1,10 +1,5 @@
 use std::collections::BinaryHeap;
 
-use std::io;
-use std::io::prelude::*;
-
-use rand::{thread_rng, Rng};
-
 use nineman::game::*;
 use nineman::game::Ply::*;
 use nineman::player::InputHandler;
@@ -30,11 +25,6 @@ impl Greedy {
             = children.iter()
                 .map(|c| Score{ score: c.player_score(id), ply: c.ply_to_get_here.clone() })
                 .collect();
-
-        println!("ordered_plys: {:?}", ordered_plys);
-
-        // let mut line = String::new();
-        // io::stdin().read_line(&mut line).expect("Failed to read line");
 
         ordered_plys.peek().unwrap().ply.clone()
     }
@@ -72,8 +62,6 @@ impl InputHandler for Greedy {
     }
 
     fn get_mill(&mut self, available_mills: Vec<String>) -> String {
-        //thread_rng().choose(&available_mills).unwrap().to_string()
-
         let chosen = self.best_child();
 
         match chosen {
