@@ -12,7 +12,7 @@ fn main() {
     let p1 = Player::new(String::from("Daphne"), 1, Box::new(Random {}));
 
     let p2 = Player::new(String::from("Gary"), 2,
-                            Box::new(Greedy { player_id: 2 }));
+                            Box::new(Greedy { player_id: 2, current_game_state: None }));
 
     let mut game = Game::new(p1, p2);
 
