@@ -16,15 +16,19 @@ impl InputHandler for Greedy {
     fn give_new_game_state(&mut self, game: GameState) {
         // do nowt
     }
+
     fn get_placement(&mut self, available_places: Vec<String>) -> String {
-        "0nw".to_string()
+        thread_rng().choose(&available_places).unwrap().to_string()
     }
+
     fn get_move(&mut self, available_moves: Vec<(String, String)>) -> (String, String) {
-        ("0nw".to_string(), "0ne".to_string())
+        thread_rng().choose(&available_moves).unwrap().to_owned()
     }
+
     fn get_mill(&mut self, available_mills: Vec<String>) -> String {
-        "0nw".to_string()
+        thread_rng().choose(&available_mills).unwrap().to_string()
     }
+    
     fn to_string(&self) -> String {
         "Greedy InputHandler".to_string()
     }
