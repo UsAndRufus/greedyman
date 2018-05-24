@@ -35,40 +35,43 @@ impl InputHandler for Greedy {
         self.current_game_state = Some(game_state);
     }
 
-    fn get_placement(&mut self, available_places: Vec<String>) -> String {
+    fn get_placement(&mut self, available_places: Vec<Ply>) -> Ply {
         let chosen = self.best_child();
 
         match chosen {
-            Placement {piece_id, ..} => {
-                assert!(available_places.contains(&piece_id),
-                    format!("Placement impossible: available_places: {:?}, piece_id: {}", available_places, piece_id));
-                piece_id
+            Placement {..} => {
+                assert!(available_places.contains(&chosen),
+                    format!("Placement impossible: available_places: {:?}, chosen: {:?}",
+                                available_places, chosen));
+                chosen
             },
             _ => panic!("Moved from a placement node using {:?}", chosen),
         }
     }
 
-    fn get_move(&mut self, available_moves: Vec<(String, String)>) -> (String, String) {
+    fn get_move(&mut self, available_moves: Vec<Ply>) -> Ply {
         let chosen = self.best_child();
 
         match chosen {
-            Move {mv, ..} => {
-                assert!(available_moves.contains(&mv),
-                    format!("Move impossible: available_moves: {:?}, mv: {:?}", available_moves, mv));
-                mv
+            Move {..} => {
+                assert!(available_moves.contains(&chosen),
+                    format!("Move impossible: available_moves: {:?}, chosen: {:?}",
+                                available_moves, chosen));
+                chosen
             },
             _ => panic!("Moved from a move node using {:?}", chosen),
         }
     }
 
-    fn get_mill(&mut self, available_mills: Vec<String>) -> String {
+    fn get_mill(&mut self, available_mills: Vec<Ply>) -> Ply {
         let chosen = self.best_child();
 
         match chosen {
-            Mill {piece_id, ..} => {
-                assert!(available_mills.contains(&piece_id),
-                    format!("Mill impossible: available_mills: {:?}, piece_id: {}", available_mills, piece_id));
-                piece_id
+            Mill {..} => {
+                assert!(available_mills.contains(&chosen),
+                    format!("Mill impossible: available_mills: {:?}, chosen: {:?}",
+                                available_mills, chosen));
+                chosen
             },
             _ => panic!("Moved from a mill node using {:?}", chosen),
         }
